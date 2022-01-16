@@ -21,10 +21,15 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Ticket> trains = [];
+  String status = '';
 
   Future showResult(String deptature, String arrival, String date,
       String seat_class, String seat_count) async {
+
     print("$deptature $arrival $date $seat_class $seat_count");
+
+    trains.clear();
+    status = 'Loading';
     String url = 'www.esheba.cnsbd.com';
     final response = await http.get(Uri.https(url, '/v1/trains', {
       'journey_date': date,
@@ -41,7 +46,8 @@ class _HomeState extends State<Home> {
         trains.add(Ticket(train['trn_name'], train['dpt_time'], train['fare']));
       }
     });
-    print(trains[0].train_name);
+    status = 'FOUND ${trains.length} TRAINS !';
+    // print(trains[0].train_name);
   }
 
   @override
@@ -69,7 +75,7 @@ class _HomeState extends State<Home> {
               alignment: Alignment.center,
               margin: EdgeInsets.all(15),
               child: Text(
-                "FOUND 4 TRAINS !",
+                status,
                 style: TextStyle(
                     fontWeight: FontWeight.bold, color: Color(0xff2fde37)),
               ),
