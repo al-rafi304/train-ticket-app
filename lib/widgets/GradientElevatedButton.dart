@@ -29,7 +29,7 @@ class GradientElevatedButton extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-            onTap: () => onPressed,
+            onTap: () => onPressed(),
             borderRadius: BorderRadius.circular(15),
             child: Center(
               child: child,

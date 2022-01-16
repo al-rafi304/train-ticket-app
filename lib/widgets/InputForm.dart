@@ -6,6 +6,16 @@ class InputForm extends StatelessWidget {
   static const double horizontalPadding = 15;
   static const double verticalPadding = 10;
 
+  Function onPress;
+
+  String departure = '';
+  String arrival = '';
+  String date = '';
+  String seat_class = '';
+  String seat_count = '';
+
+  InputForm({required this.onPress});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,6 +28,7 @@ class InputForm extends StatelessWidget {
             hintText: 'Station name',
             labelText: 'Departure',
             icon: Icons.arrow_back_rounded,
+            onSaved: (result) => departure = result,
           ),
         ),
         // SizedBox(height: 20),
@@ -27,7 +38,8 @@ class InputForm extends StatelessWidget {
           child: CustomInputField(
             hintText: 'Station name',
             labelText: 'Arrival',
-            icon: Icons.arrow_forward_rounded
+            icon: Icons.arrow_forward_rounded,
+            onSaved: (result) => arrival = result,
           ),
         ),
         // SizedBox(height: 20),
@@ -42,6 +54,7 @@ class InputForm extends StatelessWidget {
                 labelText: 'Date',
                 icon: Icons.date_range_rounded,
                 width: 175,
+                onSaved: (result) => date = result,
               ),
             ),
             Padding(
@@ -51,6 +64,7 @@ class InputForm extends StatelessWidget {
                 hintText: 'Enter class name',
                 labelText: 'Pick a Class',
                 width: 175,
+                onSaved: (result) => seat_class = result,
               ),
             )
           ],
@@ -66,12 +80,13 @@ class InputForm extends StatelessWidget {
                 labelText: 'Ticket Count',
                 icon: Icons.chair_alt_rounded,
                 width: 175,
+                onSaved: (result) => seat_count = result
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, verticalPadding, horizontalPadding, verticalPadding),
               child: GradientElevatedButton(
-                onPressed: () {},
+                onPressed: () => onPress(departure, arrival, date, seat_class, seat_count),
                 height: 45,
                 width: 150,
                 padding: EdgeInsets.fromLTRB(horizontalPadding, verticalPadding, 0, verticalPadding),

@@ -6,13 +6,16 @@ class CustomInputField extends StatelessWidget {
   final double height;
   final double width;
   final IconData icon;
+  final Function(String) onSaved;
 
   CustomInputField(
       {required this.hintText,
       required this.labelText,
+      required this.onSaved,
       this.height = 45,
       this.width = double.infinity,
-      this.icon = Icons.train_outlined});
+      this.icon = Icons.train_outlined,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +23,7 @@ class CustomInputField extends StatelessWidget {
       // horizontal: 15, vertical: 12
       cursorColor: Colors.white,
       style: const TextStyle(color: Colors.white),
+      onChanged: (result) => onSaved(result),
       decoration: InputDecoration(
           constraints: BoxConstraints(maxWidth: width, maxHeight: height),
           labelText: labelText,
