@@ -17,7 +17,7 @@ class InputForm extends StatelessWidget {
           child: CustomInputField(
             hintText: 'Station name',
             labelText: 'Departure',
-            icon: Icons.arrow_forward_rounded,
+            icon: Icons.arrow_back_rounded,
           ),
         ),
         // SizedBox(height: 20),
@@ -27,7 +27,7 @@ class InputForm extends StatelessWidget {
           child: CustomInputField(
             hintText: 'Station name',
             labelText: 'Arrival',
-            icon: Icons.arrow_back_rounded
+            icon: Icons.arrow_forward_rounded
           ),
         ),
         // SizedBox(height: 20),
