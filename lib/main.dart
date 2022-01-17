@@ -23,9 +23,17 @@ class _HomeState extends State<Home> {
   List<Ticket> trains = [];
   String status = '';
 
-  Future showResult(String deptature, String arrival, String date,
-      String seat_class, String seat_count) async {
+  void showResult(String deptature, String arrival, String date,
+      String seat_class, String seat_count){
+    setState(() {
+      status = 'Loading...';
+      _showResult(deptature, arrival, date, seat_class, seat_count);
+    });
+  }
 
+  Future _showResult(String deptature, String arrival, String date,
+      String seat_class, String seat_count) async {
+    
     print("$deptature $arrival $date $seat_class $seat_count");
 
     trains.clear();
@@ -35,7 +43,7 @@ class _HomeState extends State<Home> {
       'journey_date': date,
       'from_station': deptature,
       'to_station': arrival,
-      'class': 'SNIGDHA',
+      'class': seat_class,
       'adult': seat_count,
       'child': '0'
     }));
