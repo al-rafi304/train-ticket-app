@@ -22,91 +22,94 @@ class TicketBar extends StatelessWidget {
         child: InkWell(
           onTap: () {},
           borderRadius: BorderRadius.circular(25),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.train_outlined,
-                      color: Color(0xff44d2ed),
-                      size: 35,
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            // color: Colors.amber,
-                            constraints: BoxConstraints(maxWidth: 120),
-                            child: Text(
-                              trainName,
-                              maxLines: 2,
-                              style: TextStyle(
-                                  color: Color(0xfff6f9f8),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.train_outlined,
+                        color: Color(0xff44d2ed),
+                        size: 35,
+                      ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              // color: Colors.amber,
+                              constraints: BoxConstraints(maxWidth: 120),
+                              child: Text(
+                                trainName,
+                                maxLines: 2,
+                                style: TextStyle(
+                                    color: Color(0xfff6f9f8),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 3, 0, 0),
+                              child: Text(
+                                "More >",
+                                style:
+                                    TextStyle(color: Color(0xff44d2ed), fontSize: 12),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            color: Color(0xff2fde37),
+                            borderRadius: BorderRadius.circular(15)),
+                        constraints: BoxConstraints(minWidth: 100),
+                        child: Text(
+                          price + ' TK',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xfff6f9f8),
+                            fontWeight: FontWeight.bold,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 3, 0, 0),
-                            child: Text(
-                              "More >",
-                              style:
-                                  TextStyle(color: Color(0xff44d2ed), fontSize: 12),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          color: Color(0xff2fde37),
-                          borderRadius: BorderRadius.circular(15)),
-                      constraints: BoxConstraints(minWidth: 100),
-                      child: Text(
-                        price + ' TK',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xfff6f9f8),
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    SizedBox(height: 10,),
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          color: Color(0xffec4a5b),
-                          borderRadius: BorderRadius.circular(15)),
-                      constraints: BoxConstraints(minWidth: 100),
-                      child: Text(
-                        time,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xfff6f9f8),
-                          fontWeight: FontWeight.bold,
+                      SizedBox(height: 10,),
+                      Container(
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            color: Color(0xffec4a5b),
+                            borderRadius: BorderRadius.circular(15)),
+                        constraints: BoxConstraints(minWidth: 100),
+                        child: Text(
+                          time,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xfff6f9f8),
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

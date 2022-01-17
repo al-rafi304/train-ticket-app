@@ -76,20 +76,24 @@ class InputForm extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(
                   horizontalPadding, verticalPadding, 0, verticalPadding),
               child: CustomInputField(
-                hintText: '1-4',
-                labelText: 'Ticket Count',
-                icon: Icons.chair_alt_rounded,
-                width: 175,
-                onSaved: (result) => seat_count = result
-              ),
+                  hintText: '1-4',
+                  labelText: 'Ticket Count',
+                  icon: Icons.chair_alt_rounded,
+                  width: 175,
+                  onSaved: (result) => seat_count = result),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, verticalPadding, horizontalPadding, verticalPadding),
+              padding: const EdgeInsets.fromLTRB(
+                  0, verticalPadding, horizontalPadding, verticalPadding),
               child: GradientElevatedButton(
-                onPressed: () => onPress(departure, arrival, date, seat_class, seat_count),
+                onPressed: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  onPress(departure, arrival, date, seat_class, seat_count);
+                },
                 height: 45,
                 width: 150,
-                padding: EdgeInsets.fromLTRB(horizontalPadding, verticalPadding, 0, verticalPadding),
+                padding: EdgeInsets.fromLTRB(
+                    horizontalPadding, verticalPadding, 0, verticalPadding),
                 gradient: LinearGradient(
                     colors: <Color>[Color(0xff0896ef), Color(0xff44d2ed)],
                     begin: Alignment.topCenter,
@@ -97,7 +101,9 @@ class InputForm extends StatelessWidget {
                 child: Text(
                   "CHECK",
                   style: TextStyle(
-                      color: Color(0xfff6f9f8), fontWeight: FontWeight.bold, fontSize: 15),
+                      color: Color(0xfff6f9f8),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15),
                 ),
               ),
             )
