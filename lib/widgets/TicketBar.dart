@@ -6,8 +6,16 @@ class TicketBar extends StatelessWidget {
   final String trainName;
   final String price;
   final int id;
+  final bool train_on;
+  final bool train_left;
 
-  TicketBar({required this.id, required this.time, required this.trainName, required this.price});
+  TicketBar(
+      {required this.id,
+      required this.time,
+      required this.trainName,
+      required this.price,
+      required this.train_on,
+      required this.train_left});
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +41,31 @@ class TicketBar extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                   child: Row(
                     children: [
-                      Icon(
-                        Icons.train_outlined,
-                        color: Color(0xff44d2ed),
-                        size: 35,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.train_outlined,
+                              size: 35,
+                              color: train_on
+                                  ? train_left
+                                      ? Color(0xffecea4a) /*YELLOW*/ : Color(
+                                          0xff44d2ed) /*BLUE*/ : Color(
+                                      0xffec654a) /*ORANGE*/
+                              ),
+                          train_on
+                              ? train_left
+                                  ? Text("LEFT",
+                                      style: TextStyle(
+                                          color: Color(0xffecea4a) /*YELLOW*/,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12))
+                                  : SizedBox()
+                              : Text("OFF",
+                                  style: TextStyle(
+                                      color: Color(0xffec654a)/*ORANGE*/,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12))
+                        ],
                       ),
                       Container(
                         padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
@@ -60,8 +89,8 @@ class TicketBar extends StatelessWidget {
                               padding: const EdgeInsets.fromLTRB(0, 3, 0, 0),
                               child: Text(
                                 "More >",
-                                style:
-                                    TextStyle(color: Color(0xff44d2ed), fontSize: 12),
+                                style: TextStyle(
+                                    color: Color(0xff44d2ed), fontSize: 12),
                               ),
                             )
                           ],
@@ -91,11 +120,13 @@ class TicketBar extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Container(
                         padding: EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                            color: Color(0xffec4a5b),
+                            color: Color(0xffec654a),
                             borderRadius: BorderRadius.circular(15)),
                         constraints: BoxConstraints(minWidth: 100),
                         child: Text(

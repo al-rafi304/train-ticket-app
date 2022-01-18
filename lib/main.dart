@@ -98,7 +98,9 @@ class _HomeState extends State<Home> {
                     id: trains.indexOf(train),
                     time: train.dpt_time,
                     trainName: train.train_name.replaceAll('_', ' '),
-                    price: train.cost);
+                    price: train.cost,
+                    train_on: train.train_on,
+                    train_left: train.train_left,);
               }).toList(),
             )
           ],
