@@ -5,8 +5,9 @@ class TicketBar extends StatelessWidget {
   final String time;
   final String trainName;
   final String price;
+  final int id;
 
-  TicketBar({required this.time, required this.trainName, required this.price});
+  TicketBar({required this.id, required this.time, required this.trainName, required this.price});
 
   @override
   Widget build(BuildContext context) {

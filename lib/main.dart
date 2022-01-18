@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
 
     setState(() {
       for (var train in jsonData) {
-        trains.add(Ticket(train['trn_name'], train['dpt_time'], train['fare']));
+        trains.add(Ticket(responseData: train));
       }
     });
     status = 'FOUND ${trains.length} TRAINS !';
@@ -95,6 +95,7 @@ class _HomeState extends State<Home> {
             Column(
               children: trains.map((train) {
                 return TicketBar(
+                    id: trains.indexOf(train),
                     time: train.dpt_time,
                     trainName: train.train_name.replaceAll('_', ' '),
                     price: train.cost);
