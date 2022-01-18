@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:train_ticket_checker/model/TimeConverter.dart';
 
 class TicketBar extends StatelessWidget {
   final String time;
@@ -97,7 +98,7 @@ class TicketBar extends StatelessWidget {
                             borderRadius: BorderRadius.circular(15)),
                         constraints: BoxConstraints(minWidth: 100),
                         child: Text(
-                          time,
+                          TimeConverter.to24(time),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color(0xfff6f9f8),
