@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import 'package:train_ticket_checker/model/StationDate.dart';
 import 'package:train_ticket_checker/widgets/GradientElevatedButton.dart';
 import 'package:train_ticket_checker/widgets/CustomInputField.dart';
@@ -27,6 +29,8 @@ class _InputFormState extends State<InputForm> {
 
   String seat_count = '';
 
+  String selectedDate = '';
+
   var routeData;
   List<String> fromStations = [];
   List<String> toStations = [];
@@ -36,6 +40,23 @@ class _InputFormState extends State<InputForm> {
   void initState() {
     super.initState();
     setFromStations();
+  }
+
+  setDate(BuildContext context) async {
+    final DateTime? selected = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(Duration(days: 4)));
+    
+    if (selected != null){
+      setState(() {
+        selectedDate = DateFormat('yyyy-MM-dd').format(selected);
+        print(selectedDate);
+      });
+    }
+
+    
   }
 
   void setFromStations() async {
@@ -89,7 +110,7 @@ class _InputFormState extends State<InputForm> {
               vertical: InputForm.verticalPadding),
           child: CustomAutocompleteField(
               options: fromStations,
-              hintText: 'Station name',
+              hintText: 'Pick Station',
               labelText: 'Departure',
               icon: Icons.arrow_back_rounded,
               onSelected: (result) {
@@ -110,7 +131,7 @@ class _InputFormState extends State<InputForm> {
               vertical: InputForm.verticalPadding),
           child: CustomAutocompleteField(
               options: toStations,
-              hintText: 'Station name',
+              hintText: 'Pick Station',
               labelText: 'Arrival',
               icon: Icons.arrow_forward_rounded,
               onSelected: (result) {
@@ -130,24 +151,58 @@ class _InputFormState extends State<InputForm> {
             Padding(
               padding: const EdgeInsets.fromLTRB(InputForm.horizontalPadding,
                   InputForm.verticalPadding, 0, InputForm.verticalPadding),
-              child: CustomInputField(
-                  hintText: '15/01/2021',
-                  labelText: 'Date',
-                  icon: Icons.date_range_rounded,
-                  width: 175,
-                  onSaved: (result) {
-                    setState(() {
-                      date = result;
-                    });
-                  }),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: InputForm.horizontalPadding, vertical: InputForm.verticalPadding),
+                height: 45,
+                width: 175,
+                decoration: BoxDecoration(
+                  color: Color(0xff2B2F42),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {setDate(context);},
+                    child: Row(
+                      children: selectedDate == '' ? <Widget> [
+                        Icon(Icons.date_range_rounded, color: Color(0xff44D1EC),),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                          child: Text("Select date", style: TextStyle(color: Color(0xff434867), fontSize: 17),),
+                        ),
+                      ] : <Widget> [
+                        Icon(Icons.date_range_rounded, color: Color(0xff44D1EC),),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                          child: Text(selectedDate, style: TextStyle(color: Colors.white, fontSize: 16),),
+                        )
+                      ]
+                    ),
+                  ),
+                ),
+                  
+              )
+              // CustomInputField(
+              //     hintText: '15/01/2021',
+              //     labelText: 'Date',
+              //     icon: Icons.date_range_rounded,
+              //     width: 175,
+              //     onTap: () {
+              //       selectDate(context);
+              //     },
+              //     onSaved: (result) {
+              //       setState(() {
+              //         date = result;
+              //       });
+              //     }),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, InputForm.verticalPadding,
                   InputForm.horizontalPadding, InputForm.verticalPadding),
               child: CustomAutocompleteField(
                   options: seats,
-                  hintText: 'Enter class name',
-                  labelText: 'Pick a Class',
+                  hintText: 'Pick a class',
+                  labelText: 'Seat Class',
                   width: 175,
                   onSelected: (result) {
                     setState(() {
@@ -186,7 +241,7 @@ class _InputFormState extends State<InputForm> {
                 onPressed: () {
                   FocusManager.instance.primaryFocus?.unfocus();
                   widget.onPress(
-                      departure, arrival, date, seat_class, seat_count);
+                      departure, arrival, selectedDate, seat_class, seat_count);
                 },
                 height: 45,
                 width: 150,
