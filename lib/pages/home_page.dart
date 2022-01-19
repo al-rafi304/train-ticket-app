@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:train_ticket_checker/pages/train_details_page.dart';
 import '../widgets/InputForm.dart';
 import '../widgets/TicketBar.dart';
 import '../model/ticket_model.dart';
@@ -15,6 +16,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<Ticket> trains = [];
   String status = '';
+  int ticket_count = 0;
 
   void showResult(String deptature, String arrival, String date,
       String seat_class, String seat_count) {
@@ -42,12 +44,17 @@ class _HomeState extends State<Home> {
     var jsonData = jsonDecode(response.body);
 
     setState(() {
+      ticket_count = int.parse(seat_count);
       for (var train in jsonData) {
-        trains.add(Ticket(responseData: train));
+        trains.add(Ticket(responseData: train, ticket_count: seat_count));
       }
     });
     status = 'FOUND ${trains.length} TRAINS !';
-    // print(trains[0].train_name);
+  }
+
+  void changePage(int id){
+    print(id);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsPage(trainsData: trains[id], seat_count: ticket_count,)));
   }
 
   @override
@@ -92,6 +99,7 @@ class _HomeState extends State<Home> {
                   price: train.cost,
                   train_on: train.train_on,
                   train_left: train.train_left,
+                  onTap: changePage,
                 );
               }).toList(),
             )

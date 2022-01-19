@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:train_ticket_checker/model/TimeConverter.dart';
+import 'package:train_ticket_checker/pages/train_details_page.dart';
 import 'package:train_ticket_checker/widgets/TrainStatusIcon.dart';
 
 class TicketBar extends StatelessWidget {
@@ -9,6 +10,7 @@ class TicketBar extends StatelessWidget {
   final int id;
   final bool train_on;
   final bool train_left;
+  final Function onTap;
 
   TicketBar(
       {required this.id,
@@ -16,7 +18,8 @@ class TicketBar extends StatelessWidget {
       required this.trainName,
       required this.price,
       required this.train_on,
-      required this.train_left});
+      required this.train_left,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,7 @@ class TicketBar extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {},
+          onTap: () => onTap(id),
           borderRadius: BorderRadius.circular(25),
           child: Padding(
             padding: const EdgeInsets.all(5),
@@ -93,7 +96,7 @@ class TicketBar extends StatelessWidget {
                             borderRadius: BorderRadius.circular(15)),
                         constraints: BoxConstraints(minWidth: 100),
                         child: Text(
-                          price + ' TK',
+                          price,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color(0xfff6f9f8),

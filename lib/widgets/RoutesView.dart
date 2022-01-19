@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:train_ticket_checker/model/TimeConverter.dart';
 
 class RoutesView extends StatelessWidget {
   final List route;
@@ -30,16 +31,10 @@ class RoutesView extends StatelessWidget {
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 children: route.map((station) {
-                  bool last_station;
-                  if (station['last_stn'] == null) {
-                    last_station = false;
-                  } else {
-                    last_station = station['last_stn'];
-                  }
                   return _Station(
-                    stationName: station['int_stn'],
-                    arvTime: station['dpt_time'],
-                    lastStation: last_station,
+                    stationName: station['int_stn'].replaceAll('_', ' '),
+                    arvTime: station['dpt_time'] != null ? TimeConverter.to24(station['dpt_time']) : 'null',
+                    lastStation: route.length - 1 == route.indexOf(station) ? true : false,
                   );
                 }).toList()),
           )

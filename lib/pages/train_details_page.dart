@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:train_ticket_checker/model/TimeConverter.dart';
+import 'package:train_ticket_checker/model/ticket_model.dart';
 import 'package:train_ticket_checker/widgets/DetailsView.dart';
 import 'package:train_ticket_checker/widgets/RoutesView.dart';
 import 'package:train_ticket_checker/widgets/TrainStatusIcon.dart';
 
 class DetailsPage extends StatelessWidget {
-  var trainsData;
+  Ticket trainsData;
+  int seat_count;
 
-  DetailsPage({required this.trainsData});
+  DetailsPage({required this.trainsData, required this.seat_count});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,7 @@ class DetailsPage extends StatelessWidget {
         backgroundColor: Color(0xff1e212c),
         centerTitle: true,
         title: Text(
-          "DHAKA - RAJSHAHI",
+          trainsData.dpt_station + ' - ' + trainsData.arv_station,
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
@@ -35,12 +38,13 @@ class DetailsPage extends StatelessWidget {
                     color: Color(0xff2c3043),
                   ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TrainStatusIcon(
-                        train_left: true,
-                        train_on: true,
+                        train_left: trainsData.train_left,
+                        train_on: trainsData.train_on,
                         size: 40,
+                        showTextStatus: false,
                       ),
                       SizedBox(
                         width: 10,
@@ -50,12 +54,31 @@ class DetailsPage extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
-                            child: Text(
-                              "DHUMKATU EXPRESS",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold),
+                            child: Column(
+                              children: [
+                                Text(
+                                  trainsData.train_name.replaceAll('_', ' '),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                trainsData.train_on
+                                    ? trainsData.train_left
+                                        ? Text(
+                                            '(Train already left the station !)',
+                                            style: TextStyle(
+                                                color: Color(0xffecea4a),
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        : SizedBox()
+                                    : Text(
+                                        '(Train is off today !)',
+                                        style: TextStyle(
+                                            color: Color(0xffec654a),
+                                            fontWeight: FontWeight.bold),
+                                      )
+                              ],
                             ),
                           ),
                         ),
@@ -72,10 +95,31 @@ class DetailsPage extends StatelessWidget {
                 ),
               ),
               DetailsView(
-                details: [
-                  {'lable': 'PRICE 1x', 'valueText': '360.00 TK'},
-                  {'lable': 'PRICE 3x', 'valueText': '1080.00 TK'},
-                ],
+                details: seat_count != 1
+                    ? [
+                        {
+                          'lable': '1 SEAT:',
+                          'valueText':
+                              (int.parse(trainsData.costWithoutFormatting) /
+                                          seat_count)
+                                      .toStringAsFixed(2) +
+                                  ' TK'
+                        },
+                        {
+                          'lable': '${seat_count} SEAT:',
+                          'valueText': trainsData.costSingle
+                        }
+                      ]
+                    : [
+                        {
+                          'lable': '1 SEAT:',
+                          'valueText':
+                              (int.parse(trainsData.costWithoutFormatting) /
+                                          seat_count)
+                                      .toStringAsFixed(2) +
+                                  ' TK'
+                        }
+                      ],
                 color: Color(0xff2fde37),
               ),
               SizedBox(
@@ -83,9 +127,18 @@ class DetailsPage extends StatelessWidget {
               ),
               DetailsView(
                 details: [
-                  {'lable': 'DEPARTURE:', 'valueText': '8:00 AM'},
-                  {'lable': 'ARRIVAL:', 'valueText': '11:40 AM'},
-                  {'lable': 'DURATION:', 'valueText': '5 HOUR 40 MINS'},
+                  {
+                    'lable': 'DEPARTURE:',
+                    'valueText': TimeConverter.to24(trainsData.dpt_time)
+                  },
+                  {
+                    'lable': 'ARRIVAL:',
+                    'valueText': TimeConverter.to24(trainsData.arv_time)
+                  },
+                  {
+                    'lable': 'DURATION:',
+                    'valueText': trainsData.duration.toUpperCase()
+                  },
                 ],
                 color: Color(0xffec654a),
               ),
@@ -98,20 +151,7 @@ class DetailsPage extends StatelessWidget {
                   endIndent: 10,
                 ),
               ),
-              RoutesView(
-                route: [
-                  {'int_stn': 'DHAKA', 'dpt_time': '6:30 AM'},
-                  {
-                    'int_stn': 'BIMAN BANDAR',
-                    'dpt_time': '7:30 AM',
-                  },
-                  {
-                    'int_stn': 'BIMAN BANDAR',
-                    'dpt_time': '7:30 AM',
-                    'last_stn': true
-                  },
-                ],
-              )
+              RoutesView(route: trainsData.routes)
             ],
           ),
         ),
