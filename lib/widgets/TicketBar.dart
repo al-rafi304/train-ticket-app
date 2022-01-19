@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:train_ticket_checker/model/TimeConverter.dart';
+import 'package:train_ticket_checker/widgets/TrainStatusIcon.dart';
 
 class TicketBar extends StatelessWidget {
   final String time;
@@ -44,27 +45,7 @@ class TicketBar extends StatelessWidget {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.train_outlined,
-                              size: 35,
-                              color: train_on
-                                  ? train_left
-                                      ? Color(0xffecea4a) /*YELLOW*/ : Color(
-                                          0xff44d2ed) /*BLUE*/ : Color(
-                                      0xffec654a) /*ORANGE*/
-                              ),
-                          train_on
-                              ? train_left
-                                  ? Text("LEFT",
-                                      style: TextStyle(
-                                          color: Color(0xffecea4a) /*YELLOW*/,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12))
-                                  : SizedBox()
-                              : Text("OFF",
-                                  style: TextStyle(
-                                      color: Color(0xffec654a)/*ORANGE*/,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12))
+                          TrainStatusIcon(train_left: train_left, train_on: train_on)
                         ],
                       ),
                       Container(
