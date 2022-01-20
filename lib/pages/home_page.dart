@@ -17,6 +17,15 @@ class _HomeState extends State<Home> {
   List<Ticket> trains = [];
   String status = '';
   int ticket_count = 0;
+  Color statusColor = Color(0xff2fde37);
+
+  void changeStatus(String text, {bool isError = false}){
+    
+    status = text;
+    if(isError) statusColor = Color(0xffec654a);
+    else statusColor = Color(0xff2fde37);
+    
+  }
 
   void showResult(String deptature, String arrival, String date,
       String seat_class, String seat_count) {
@@ -30,8 +39,13 @@ class _HomeState extends State<Home> {
       String seat_class, String seat_count) async {
     print("$deptature $arrival $date $seat_class $seat_count");
 
+    if(int.parse(seat_count) > 4){
+      changeStatus('You can only request upto 4 seats !', isError: true);
+      return;
+    }
+
     trains.clear();
-    status = 'Loading';
+    status = 'Loading...';
     String url = 'www.esheba.cnsbd.com';
     final response = await http.get(Uri.https(url, '/v1/trains', {
       'journey_date': date,
@@ -41,15 +55,27 @@ class _HomeState extends State<Home> {
       'adult': seat_count,
       'child': '0'
     }));
-    var jsonData = jsonDecode(response.body);
 
-    setState(() {
-      ticket_count = int.parse(seat_count);
-      for (var train in jsonData) {
-        trains.add(Ticket(responseData: train, ticket_count: seat_count));
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+
+      if(jsonData.length == 0){
+        setState(() {
+          changeStatus('No trains found !', isError: true);
+        });
+        return;
       }
-    });
-    status = 'FOUND ${trains.length} TRAINS !';
+
+      setState(() {
+        ticket_count = int.parse(seat_count);
+        for (var train in jsonData) {
+          trains.add(Ticket(responseData: train, ticket_count: seat_count));
+        }
+      });
+      changeStatus('FOUND ${trains.length} TRAINS !');
+    } else {
+      changeStatus('Error receving data (${response.statusCode})');
+    }
   }
 
   void changePage(int id) {
@@ -89,7 +115,7 @@ class _HomeState extends State<Home> {
               child: Text(
                 status,
                 style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Color(0xff2fde37)),
+                    fontWeight: FontWeight.bold, color: statusColor),
               ),
             ),
             Column(
