@@ -99,25 +99,17 @@ class DetailsPage extends StatelessWidget {
                     ? [
                         {
                           'lable': '1 SEAT:',
-                          'valueText':
-                              (int.parse(trainsData.costWithoutFormatting) /
-                                          seat_count)
-                                      .toStringAsFixed(2) +
-                                  ' TK'
+                          'valueText': trainsData.costSingle
                         },
                         {
                           'lable': '${seat_count} SEAT:',
-                          'valueText': trainsData.costSingle
+                          'valueText': trainsData.cost
                         }
                       ]
                     : [
                         {
                           'lable': '1 SEAT:',
-                          'valueText':
-                              (int.parse(trainsData.costWithoutFormatting) /
-                                          seat_count)
-                                      .toStringAsFixed(2) +
-                                  ' TK'
+                          'valueText': trainsData.costSingle
                         }
                       ],
                 color: Color(0xff2fde37),
