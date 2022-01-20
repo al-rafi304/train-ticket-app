@@ -48,15 +48,13 @@ class _InputFormState extends State<InputForm> {
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(Duration(days: 4)));
-    
-    if (selected != null){
+
+    if (selected != null) {
       setState(() {
         selectedDate = DateFormat('yyyy-MM-dd').format(selected);
         print(selectedDate);
       });
     }
-
-    
   }
 
   void setFromStations() async {
@@ -149,53 +147,59 @@ class _InputFormState extends State<InputForm> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(InputForm.horizontalPadding,
-                  InputForm.verticalPadding, 0, InputForm.verticalPadding),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: InputForm.horizontalPadding, vertical: InputForm.verticalPadding),
-                height: 45,
-                width: 175,
-                decoration: BoxDecoration(
-                  color: Color(0xff2B2F42),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {setDate(context);},
-                    child: Row(
-                      children: selectedDate == '' ? <Widget> [
-                        Icon(Icons.date_range_rounded, color: Color(0xff44D1EC),),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                          child: Text("Select date", style: TextStyle(color: Color(0xff434867), fontSize: 17),),
-                        ),
-                      ] : <Widget> [
-                        Icon(Icons.date_range_rounded, color: Color(0xff44D1EC),),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                          child: Text(selectedDate, style: TextStyle(color: Colors.white, fontSize: 16),),
-                        )
-                      ]
+                padding: const EdgeInsets.fromLTRB(InputForm.horizontalPadding,
+                    InputForm.verticalPadding, 0, InputForm.verticalPadding),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: InputForm.horizontalPadding,
+                      vertical: InputForm.verticalPadding),
+                  height: 45,
+                  width: 175,
+                  decoration: BoxDecoration(
+                    color: Color(0xff2B2F42),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        setDate(context);
+                      },
+                      child: Row(
+                          children: selectedDate == ''
+                              ? <Widget>[
+                                  Icon(
+                                    Icons.date_range_rounded,
+                                    color: Color(0xff44D1EC),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                    child: Text(
+                                      "Select date",
+                                      style: TextStyle(
+                                          color: Color(0xff434867),
+                                          fontSize: 17),
+                                    ),
+                                  ),
+                                ]
+                              : <Widget>[
+                                  Icon(
+                                    Icons.date_range_rounded,
+                                    color: Color(0xff44D1EC),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                    child: Text(
+                                      selectedDate,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16),
+                                    ),
+                                  )
+                                ]),
                     ),
                   ),
-                ),
-                  
-              )
-              // CustomInputField(
-              //     hintText: '15/01/2021',
-              //     labelText: 'Date',
-              //     icon: Icons.date_range_rounded,
-              //     width: 175,
-              //     onTap: () {
-              //       selectDate(context);
-              //     },
-              //     onSaved: (result) {
-              //       setState(() {
-              //         date = result;
-              //       });
-              //     }),
-            ),
+                )),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, InputForm.verticalPadding,
                   InputForm.horizontalPadding, InputForm.verticalPadding),
@@ -238,6 +242,14 @@ class _InputFormState extends State<InputForm> {
               padding: const EdgeInsets.fromLTRB(0, InputForm.verticalPadding,
                   InputForm.horizontalPadding, InputForm.verticalPadding),
               child: GradientElevatedButton(
+                lable: "CHECK",
+                enabled: departure != '' &&
+                        arrival != '' &&
+                        selectedDate != '' &&
+                        seat_class != '' &&
+                        seat_count != ''
+                    ? true
+                    : false,
                 onPressed: () {
                   FocusManager.instance.primaryFocus?.unfocus();
                   widget.onPress(
@@ -251,51 +263,10 @@ class _InputFormState extends State<InputForm> {
                     colors: <Color>[Color(0xff0896ef), Color(0xff44d2ed)],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter),
-                child: Text(
-                  "CHECK",
-                  style: TextStyle(
-                      color: Color(0xfff6f9f8),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15),
-                ),
               ),
             ),
           ],
         ),
-        // Autocomplete(
-        //   optionsBuilder: (TextEditingValue textEditingValue) {
-        //     if (textEditingValue.text == '') {
-        //       return const Iterable<String>.empty();
-        //     }
-        //     return fromStations.where((String option) {
-        //       return option.contains(textEditingValue.text.toUpperCase());
-        //     });
-        //   },
-        //   fieldViewBuilder:
-        //       (context, controller, focusNode, onEditingComplete) {
-        //     return TextFormField(
-        //       controller: controller,
-        //       focusNode: focusNode,
-        //       onEditingComplete: onEditingComplete,
-        //       cursorColor: Colors.white,
-        //       style: const TextStyle(color: Colors.white),
-        //       onChanged: (result) => {print(result)},
-        //       decoration: InputDecoration(
-        //           constraints: BoxConstraints(maxWidth: 250),
-        //           labelText: 'lable',
-        //           hintText: 'hint',
-        //           floatingLabelStyle: TextStyle(color: Color(0xFF0896ef)),
-        //           labelStyle: TextStyle(color: Color(0xff444968)),
-        //           hintStyle: TextStyle(color: Color(0xff444968)),
-        //           border: OutlineInputBorder(
-        //             borderRadius: BorderRadius.circular(15),
-        //             borderSide: BorderSide.none,
-        //           ),
-        //           filled: true,
-        //           fillColor: Color(0xFF2a2d41)),
-        //     );
-        //   },
-        // )
       ],
     );
   }

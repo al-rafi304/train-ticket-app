@@ -52,9 +52,15 @@ class _HomeState extends State<Home> {
     status = 'FOUND ${trains.length} TRAINS !';
   }
 
-  void changePage(int id){
+  void changePage(int id) {
     print(id);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsPage(trainsData: trains[id], seat_count: ticket_count,)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DetailsPage(
+                  trainsData: trains[id],
+                  seat_count: ticket_count,
+                )));
   }
 
   @override
@@ -86,10 +92,6 @@ class _HomeState extends State<Home> {
                     fontWeight: FontWeight.bold, color: Color(0xff2fde37)),
               ),
             ),
-            // TicketBar(trainName: 'DHUMKATU EXPRESS', time: "08:30 PM", price: "1550.00",),
-            // TicketBar(trainName: 'BANALATA EXPRESS', time: "11:00 AM", price: "850.00",),
-            // TicketBar(trainName: 'SILKCITY', time: "6:30 PM", price: "670.00",),
-            // TicketBar(trainName: 'PADMA EXPRESS', time: "10:45 PM", price: "1260.00",),
             Column(
               children: trains.map((train) {
                 return TicketBar(
